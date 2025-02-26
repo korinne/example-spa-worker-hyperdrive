@@ -1,25 +1,21 @@
-# React + Vite + Neon + Hyperdrive
+# React + Vite + Neon + Hyperdrive on Workers
+
+This is a simple React SPA using the new @cloudflare/vite-plugin and Workers static assets. On the backend, this uses Hono to define API routes in a Worker, and the API calls out to a Neon postgres database through Hyperdrive. Smart Placement is enabled.
 
 ## To Do
 
-1. Fix issues with hyperdrive, and switch to "hyperdrive-index.js" in wrangler.jsonc
-2. Fix book covers sizes
-3. Remove download-covers script and SQL script
-4. Write readme
-5. Enable smart placment
+1. Fix book covers sizes
+2. Remove download-covers script
+3. Finish Readme
 
-## To Run Locally
+## Getting started
 
-1. Create postgres database and input data using the "sql-script".
-2. Add `.dev.vars` file and put in `DATABASE_URL=${connection-string}`
-3. Turn off "Warp" or VPN.
-4. `npm run dev`
-
-## Deployment Steps
-
-1. Add secret via `npx wrangler secret put DATABASE_URL`
-   - Then enter connection string value
-2. `npm run deploy`
+1. Run `npm i`
+2. Sign up for [Neon](https://neon.tech) and create a postgres database.
+3. Input the SQL script (/sql-script.sql) into SQL editor.
+4. Create a Hyperdrive connection by running `npx wrangler hyperdrive create <YOUR_CONFIG_NAME> --connection-string="postgres://user:password@HOSTNAME_OR_IP_ADDRESS:PORT/database_name"`
+5. Bind your Worker to Hyperdrive by updating your `wrangler.jsonc` with the ID that Wrangler outputs in Step 3.
+6. `npm run deploy`
 
 ## Resources
 
