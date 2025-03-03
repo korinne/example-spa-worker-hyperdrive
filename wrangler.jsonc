@@ -19,8 +19,9 @@
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
-      "id": "8a011e0de11b4196a8906e67c0710699"
-    }
+      "id": "8a011e0de11b4196a8906e67c0710699",
+      "localConnectionString": "postgresql://myuser:mypassword@localhost:5432/mydatabase"
+    },
   ],
   "placement": {
     "mode": "smart"
