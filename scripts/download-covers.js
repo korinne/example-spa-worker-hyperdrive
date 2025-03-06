@@ -3,11 +3,6 @@
 import fs from "fs";
 import path from "path";
 import https from "https";
-import { fileURLToPath } from "url";
-
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Create the images directory if it doesn't exist
 const imagesDir = path.join("src", "assets", "images", "books");
@@ -227,7 +222,7 @@ async function downloadBookCover(book) {
       const url = `https://covers.openlibrary.org/b/title/${query}-L.jpg`;
       try {
         return downloadImage(url, filepath);
-      } catch (e) {
+      } catch {
         return false;
       }
     },
@@ -239,7 +234,7 @@ async function downloadBookCover(book) {
       const url = getAmazonCoverURL(book.isbn);
       try {
         return downloadImage(url, filepath);
-      } catch (e) {
+      } catch {
         return false;
       }
     },

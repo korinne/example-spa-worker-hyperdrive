@@ -16,6 +16,13 @@ To run locally, you can use the docker container defined in the docker compose.
 1. `docker-compose up -d`
    - Creates container with postgres in it, and seed with the "init.sql" data.
 2. `npm run dev`
+3. If wanting to change the initial SQL script, tear down with `docker-compose down -v`.
+
+## Testing
+
+1. `docker-compose up -d`
+2. Run the `docker-compose run --rmf
+k6 run /scripts/test.js` to get the K6 values.
 
 ## Deploying
 

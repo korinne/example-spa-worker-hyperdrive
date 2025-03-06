@@ -1,5 +1,14 @@
 version: '3.8'
 services:
+  k6:
+    image: grafana/k6:master-with-browser
+    environment:
+      - K6_BROWSER_ENABLED=true
+    volumes:
+      - ./scripts:/scripts
+      - ./results:/results
+    command: ["run", "/scripts/test.js"]
+  
   db:
     image: postgres
     container_name: my_postgres
