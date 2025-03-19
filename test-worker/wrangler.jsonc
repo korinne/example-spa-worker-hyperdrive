@@ -1,0 +1,6 @@
+{
+  "name": "testing-worker",
+  "main": "./index.js",
+  "compatibility_date": "2025-02-24",
+  "compatibility_flags": ["nodejs_compat"]
+}
