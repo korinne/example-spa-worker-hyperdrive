@@ -25,11 +25,5 @@
   ],
   "placement": {
     "mode": "smart"
-  },
-  "services": [
-    {
-      "binding": "TEST_WORKER",
-      "service": "testing-worker"
-    }
-  ]
+  }
 }
