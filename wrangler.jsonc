@@ -19,10 +19,17 @@
   "hyperdrive": [
     {
       "binding": "HYPERDRIVE",
-      "id": "4caf5a303eb148f0a041412b5e1e3033"
+      "id": "4caf5a303eb148f0a041412b5e1e3033",
+      "localConnectionString": "postgresql://myuser:mypassword@localhost:5432/mydatabase"
     }
   ],
   "placement": {
     "mode": "smart"
-  }
+  },
+  "services": [
+    {
+      "binding": "TEST_WORKER",
+      "service": "testing-worker"
+    }
+  ]
 }
