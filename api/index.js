@@ -23,7 +23,7 @@ app.get("/api/data", async (c) => {
   }
 });
 
-// New endpoint that makes multiple database calls to showcase Hyperdrive performance
+
 app.get("/api/books/:id", async (c) => {
   const bookId = c.req.param("id");
   const sql = postgres(c.env.HYPERDRIVE.connectionString, {
@@ -51,7 +51,7 @@ app.get("/api/books/:id", async (c) => {
     let recentBooks = [];
     let genreCounts = [];
     
-    // Always use genre-based queries since we've now added the genre column to all books
+
     const bookGenre = book[0].genre;
 
     // Second database call - get related books in the same genre

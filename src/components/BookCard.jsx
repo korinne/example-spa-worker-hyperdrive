@@ -1,4 +1,3 @@
-
 function BookCard({ book, onClick }) {
   return (
     <div 

@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router';
 import Breadcrumbs from './Breadcrumbs';
 import PerformanceMetrics from './PerformanceMetrics';
 
-function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activeGenre }) {
-  const { book, relatedBooks, recentRecommendations, genreStats, performance } = bookData;
+function BookDetail({ bookData }) {
+  const navigate = useNavigate();
+  const { book, relatedBooks, performance } = bookData;
   
   // Prepare breadcrumb items
   const breadcrumbItems = [
@@ -15,21 +17,26 @@ function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activ
   
   breadcrumbItems.push({ label: book.title, value: 'book' });
   
+  const handleNavigate = (value) => {
+    if (value === null) {
+      // Navigate to all books
+      navigate('/');
+    } else if (value !== 'book') {
+      // Navigate to genre
+      navigate(`/genre/${encodeURIComponent(value)}`);
+    }
+  };
+  
+  const handleRelatedBookClick = (bookId) => {
+    navigate(`/book/${bookId}`);
+  };
+  
   return (
     <div>
       {/* Breadcrumbs at the very top */}
       <Breadcrumbs 
         items={breadcrumbItems} 
-        onNavigate={(value) => {
-          if (value === null) {
-            // Navigate to all books
-            onBack();
-          } else if (value !== 'book') {
-            // Navigate to genre
-            onBack();
-            onGenreClick(value);
-          }
-        }} 
+        onNavigate={handleNavigate} 
       />
       
       <div className="space-y-12 mt-6">
@@ -48,7 +55,10 @@ function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activ
               
               {book.genre && (
                 <div className="mb-6">
-                  <span className="inline-block border border-blue-800 text-blue-800 text-sm px-3 py-1 rounded-full font-sans">
+                  <span 
+                    className="inline-block border border-blue-800 text-blue-800 text-sm px-3 py-1 rounded-full font-sans cursor-pointer" 
+                    onClick={() => navigate(`/genre/${encodeURIComponent(book.genre)}`)}
+                  >
                     {book.genre}
                   </span>
                 </div>
@@ -73,7 +83,7 @@ function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activ
                 <div 
                   key={relBook.id} 
                   className="card py-4 px-5 text-center cursor-pointer" 
-                  onClick={() => onSelectRelatedBook(relBook.id)}
+                  onClick={() => handleRelatedBookClick(relBook.id)}
                 >
                   <div className="w-24 h-32 mx-auto mb-3">
                     <img 

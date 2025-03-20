@@ -1,6 +1,6 @@
-# React + Vite + Neon + Hyperdrive on Workers
+# React + React Router 7 + Vite + Neon + Hyperdrive on Workers
 
-This is a simple React SPA using the new @cloudflare/vite-plugin and Workers static assets. On the backend, this uses Hono to define API routes in a Worker, and the API calls out to a Neon postgres database through Hyperdrive. Smart Placement is enabled.
+This is a simple React SPA using React Router 7 for client-side navigation (using declarative routing), along with the @cloudflare/vite-plugin and Workers static assets. On the backend, this uses Hono to define API routes in a Worker, and the API calls out to a Neon postgres database through Hyperdrive. Smart Placement is enabled.
 
 ## To Do
 
@@ -16,6 +16,8 @@ To run locally, you can use the docker container defined in the docker compose.
 1. `docker-compose up -d`
    - Creates container with postgres in it, and seed with the "init.sql" data.
 2. `npm run dev`
+
+If you update the "init.sql" file, make sure to run `docker-compose down -v` to teardown.
 
 ## Deploying
 

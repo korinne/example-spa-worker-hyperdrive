@@ -1,30 +1,29 @@
+import { Link } from 'react-router';
 
-function Sidebar({ genres, activeGenre, onSelectGenre, counts }) {
+function Sidebar({ genres, activeGenre, counts }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-title">Athenaeum</div>
       
       <nav className="sidebar-nav">
-        <a 
-          href="#" 
+        <Link 
+          to="/" 
           className={activeGenre === null ? "sidebar-link-active" : "sidebar-link"}
-          onClick={() => onSelectGenre(null)}
         >
           All Books
-        </a>
+        </Link>
         
         <div className="sidebar-section">
           <div className="sidebar-heading">Genres</div>
           {genres.map(genre => (
-            <a 
+            <Link 
               key={genre.name}
-              href="#" 
+              to={`/genre/${encodeURIComponent(genre.name)}`}
               className={activeGenre === genre.name ? "sidebar-link-active" : "sidebar-link"}
-              onClick={() => onSelectGenre(genre.name)}
             >
               {genre.name}
               {counts && <span className="ml-2 text-xs text-gray-900">({genre.count})</span>}
-            </a>
+            </Link>
           ))}
         </div>
       </nav>

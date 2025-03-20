@@ -1,8 +1,7 @@
-
 function PerformanceMetrics({ performance }) {
   return (
     <section className="mb-12">
-      <h3 className="mb-6">Performance Metrics</h3>
+      <h3 className="mb-6">Approximate Performance Metrics</h3>
       
       <div className="metrics-container">
         <div className="metric-card">

@@ -1,27 +1,33 @@
-import { use, Suspense, useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useNavigate, useParams } from "react-router";
 import { groupByGenre } from "./lib/utils";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Sidebar from "./components/Sidebar";
-import BookCard from "./components/BookCard";
 import BooksList from "./components/BooksList";
-import PerformanceMetrics from "./components/PerformanceMetrics";
 import BookDetail from "./components/BookDetail";
 
 // Main App component
 function App() {
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const navigate = useNavigate();
+  const params = useParams();
   const [bookDetail, setBookDetail] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [activeGenre, setActiveGenre] = useState(null);
   const [genres, setGenres] = useState([]);
   
+  // Get route parameters
+  const { bookId } = params;
+  const { genreId } = params;
+  const activeGenre = genreId ? decodeURIComponent(genreId) : null;
+  
   // Main books list promise
-  const booksPromise = fetch("/api/data").then(response => {
-    if (!response.ok) {
-      throw new Error(`API returned status: ${response.status}`);
-    }
-    return response.json();
-  });
+  const booksPromise = useMemo(() => 
+    fetch("/api/data").then(response => {
+      if (!response.ok) {
+        throw new Error(`API returned status: ${response.status}`);
+      }
+      return response.json();
+    }),
+  []);
   
   // Calculate genres when books are loaded and combine Science Fiction & Fantasy
   useEffect(() => {
@@ -45,17 +51,17 @@ function App() {
     };
     
     loadGenres();
-  }, []);
+  }, [booksPromise]);
   
-  // Load book details when a book is selected
+  // Load book details when a book is selected via URL
   useEffect(() => {
-    if (!selectedBookId) return;
+    if (!bookId) return;
     
     const fetchBookDetail = async () => {
       setLoading(true);
       try {
         const startTime = performance.now();
-        const response = await fetch(`/api/books/${selectedBookId}`);
+        const response = await fetch(`/api/books/${bookId}`);
         const endTime = performance.now();
         
         if (!response.ok) {
@@ -90,19 +96,18 @@ function App() {
     };
     
     fetchBookDetail();
-  }, [selectedBookId]);
+  }, [bookId]);
   
   const handleSelectBook = (bookId) => {
-    setSelectedBookId(bookId);
-  };
-  
-  const handleBackToLibrary = () => {
-    setSelectedBookId(null);
-    setBookDetail(null);
+    navigate(`/book/${bookId}`);
   };
   
   const handleSelectGenre = (genre) => {
-    setActiveGenre(genre);
+    if (genre) {
+      navigate(`/genre/${encodeURIComponent(genre)}`);
+    } else {
+      navigate('/');
+    }
   };
 
   return (
@@ -116,7 +121,7 @@ function App() {
       
       <main className="main-content">
         {/* Breadcrumbs for main library page */}
-        {!selectedBookId && (
+        {!bookId && (
           <Breadcrumbs 
             items={[
               { label: 'All Books', value: null },
@@ -141,7 +146,7 @@ function App() {
           </p>
         </div>
 
-        {selectedBookId ? (
+        {bookId ? (
           loading ? (
             <div className="flex justify-center items-center py-20">
               <div className="h-10 w-10 border-2 border-blue-800 border-t-transparent rounded-full animate-spin"></div>
@@ -149,26 +154,16 @@ function App() {
           ) : bookDetail ? (
             <BookDetail 
               bookData={bookDetail} 
-              onBack={handleBackToLibrary} 
-              onSelectRelatedBook={handleSelectBook}
-              onGenreClick={handleSelectGenre}
-              activeGenre={activeGenre}
             />
           ) : (
             <div className="text-center py-20 text-gray-600">Error loading book details</div>
           )
         ) : (
-          <Suspense fallback={
-            <div className="flex justify-center items-center py-20">
-              <div className="h-10 w-10 border-2 border-blue-800 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          }>
-            <BooksList 
-              booksPromise={booksPromise} 
-              onSelectBook={handleSelectBook}
-              filter={activeGenre}
-            />
-          </Suspense>
+          <BooksList 
+            booksPromise={booksPromise} 
+            onSelectBook={handleSelectBook}
+            filter={activeGenre}
+          />
         )}
       </main>
     </div>

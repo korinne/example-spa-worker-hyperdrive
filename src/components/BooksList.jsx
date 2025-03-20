@@ -1,8 +1,26 @@
-import React, { use } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import BookCard from './BookCard';
 
-function BooksList({ booksPromise, onSelectBook, filter }) {
-  const books = use(booksPromise);
+function BooksList({ booksPromise, filter, onSelectBook }) {
+  const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const data = await booksPromise;
+        setBooks(data);
+      } catch (error) {
+        console.error("Error loading books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchBooks();
+  }, [booksPromise]);
   
   // Process books to combine Science Fiction and Fantasy genres
   const processedBooks = books.map(book => {
@@ -22,13 +40,25 @@ function BooksList({ booksPromise, onSelectBook, filter }) {
         : processedBooks.filter(book => book.genre === filter))
     : processedBooks;
   
+  const handleBookSelect = (bookId) => {
+    navigate(`/book/${bookId}`);
+  };
+  
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <div className="h-10 w-10 border-2 border-blue-800 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {filteredBooks.map(book => (
         <BookCard 
           key={book.id} 
           book={book} 
-          onClick={() => onSelectBook(book.id)}
+          onClick={() => handleBookSelect(book.id)}
         />
       ))}
     </div>
