@@ -7,7 +7,7 @@
   "name": "example-spa-worker-hyperdrive",
   "main": "api/index.js",
   "compatibility_flags": ["nodejs_compat"],
-  "compatibility_date": "2025-02-24",
+  "compatibility_date": "2025-02-14",
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
