@@ -62,9 +62,9 @@ function Sidebar({ genres, activeGenre, onSelectGenre, counts }) {
       </nav>
       
       <div className="mt-auto pt-6 px-6">
-        <div className="text-xs text-text-primary">
+        <div className="text-xs text-gray-900">
           Powered by<br />
-          <span className="text-accent-default">Cloudflare Hyperdrive</span>
+          <span className="text-blue-800">Cloudflare Hyperdrive</span>
         </div>
       </div>
     </aside>
@@ -86,9 +86,9 @@ function BookCard({ book, onClick }) {
         />
       </div>
       <div className="book-card-content">
-        <h3 className="text-lg font-noto-serif mb-1 line-clamp-1">{book.title}</h3>
-        <p className="text-text-primary text-sm mb-2">by {book.author}</p>
-        <p className="text-text-primary text-sm overflow-hidden line-clamp-3 mb-4">{book.description}</p>
+        <h3 className="text-lg font-serif mb-1 line-clamp-1">{book.title}</h3>
+        <p className="text-gray-900 text-sm mb-2">by {book.author}</p>
+        <p className="text-gray-900 text-sm overflow-hidden line-clamp-3 mb-4">{book.description}</p>
         <button className="btn-primary w-full text-sm font-bold">Learn more</button>
       </div>
     </div>
@@ -145,7 +145,7 @@ function PerformanceMetrics({ performance }) {
         <div className="metric-card">
           <div className="metric-value">
             {performance.totalDbTime ? Math.round(performance.totalDbTime) : 0}
-            <span className="text-base ml-1 font-noto-sans text-text-muted">ms</span>
+            <span className="text-base ml-1 font-sans text-gray-500">ms</span>
           </div>
           <div className="metric-label">Total DB Time</div>
         </div>
@@ -153,20 +153,20 @@ function PerformanceMetrics({ performance }) {
         <div className="metric-card">
           <div className="metric-value">
             {performance.responseTime ? Math.round(performance.responseTime) : '-'}
-            <span className="text-base ml-1 font-noto-sans text-text-muted">ms</span>
+            <span className="text-base ml-1 font-sans text-gray-500">ms</span>
           </div>
           <div className="metric-label">API Response</div>
         </div>
       </div>
       
       <div className="mb-8">
-        <h4 className="text-text-primary mb-2">Hyperdrive Performance</h4>
-        <p className="text-text-secondary">{performance.hyperdriveBenefit || "Using Cloudflare Hyperdrive to optimize multiple database round trips within a single API request."}</p>
+        <h4 className="text-gray-900 mb-2">Hyperdrive Performance</h4>
+        <p className="text-gray-600">{performance.hyperdriveBenefit || "Using Cloudflare Hyperdrive to optimize multiple database round trips within a single API request."}</p>
       </div>
       
       {performance.queryDetails && performance.queryDetails.length > 0 && (
         <div>
-          <h4 className="text-text-primary mb-4">Individual Query Performance</h4>
+          <h4 className="text-gray-900 mb-4">Individual Query Performance</h4>
           <table className="data-table">
             <thead>
               <tr>
@@ -178,7 +178,7 @@ function PerformanceMetrics({ performance }) {
               {performance.queryDetails.map((query, index) => (
                 <tr key={index}>
                   <td>{query.query}</td>
-                  <td>{Math.round(query.time)} <span className="text-text-muted">ms</span></td>
+                  <td>{Math.round(query.time)} <span className="text-gray-500">ms</span></td>
                 </tr>
               ))}
             </tbody>
@@ -228,22 +228,22 @@ function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activ
               <img 
                 src={book.image_url} 
                 alt={book.title}
-                className="w-full h-full object-contain rounded-md border border-border-light" 
+                className="w-full h-full object-contain rounded-md border border-gray-200" 
               />
             </div>
             <div className="md:w-2/3 lg:w-3/4">
               <h1 className="mb-3">{book.title}</h1>
-              <h2 className="text-xl text-text-primary mb-6 font-noto-serif font-normal">by {book.author}</h2>
+              <h2 className="text-xl text-gray-900 mb-6 font-serif font-normal">by {book.author}</h2>
               
               {book.genre && (
                 <div className="mb-6">
-                  <span className="inline-block border border-accent-default text-accent-default text-sm px-3 py-1 rounded-full font-noto-sans">
+                  <span className="inline-block border border-blue-800 text-blue-800 text-sm px-3 py-1 rounded-full font-sans">
                     {book.genre}
                   </span>
                 </div>
               )}
               
-              <p className="text-text-primary leading-relaxed">{book.description}</p>
+              <p className="text-gray-900 leading-relaxed">{book.description}</p>
             </div>
           </div>
         </div>
@@ -268,11 +268,11 @@ function BookDetail({ bookData, onBack, onSelectRelatedBook, onGenreClick, activ
                     <img 
                       src={relBook.image_url} 
                       alt={relBook.title}
-                      className="w-full h-full object-contain rounded-sm border border-border-light" 
+                      className="w-full h-full object-contain rounded-sm border border-gray-200" 
                     />
                   </div>
-                  <div className="font-noto-serif text-text-primary mb-1 line-clamp-1">{relBook.title}</div>
-                  <div className="text-text-primary text-sm font-noto-sans">{relBook.author}</div>
+                  <div className="font-serif text-gray-900 mb-1 line-clamp-1">{relBook.title}</div>
+                  <div className="text-gray-900 text-sm font-sans">{relBook.author}</div>
                 </div>
               ))}
             </div>
@@ -410,7 +410,7 @@ function App() {
           <h1>
             {activeGenre ? `${activeGenre} Books` : 'My Library'}
           </h1>
-          <p className="text-text-primary">
+          <p className="text-gray-900">
             {activeGenre 
               ? `Explore our collection of ${activeGenre.toLowerCase()} books` 
               : 'Discover your next favorite book'}
@@ -420,7 +420,7 @@ function App() {
         {selectedBookId ? (
           loading ? (
             <div className="flex justify-center items-center py-20">
-              <div className="h-10 w-10 border-2 border-accent-default border-t-transparent rounded-full animate-spin"></div>
+              <div className="h-10 w-10 border-2 border-blue-800 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : bookDetail ? (
             <BookDetail 
@@ -431,12 +431,12 @@ function App() {
               activeGenre={activeGenre}
             />
           ) : (
-            <div className="text-center py-20 text-text-secondary">Error loading book details</div>
+            <div className="text-center py-20 text-gray-600">Error loading book details</div>
           )
         ) : (
           <Suspense fallback={
             <div className="flex justify-center items-center py-20">
-              <div className="h-10 w-10 border-2 border-accent-default border-t-transparent rounded-full animate-spin"></div>
+              <div className="h-10 w-10 border-2 border-blue-800 border-t-transparent rounded-full animate-spin"></div>
             </div>
           }>
             <BooksList 
