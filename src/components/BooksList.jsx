@@ -22,23 +22,10 @@ function BooksList({ booksPromise, filter, onSelectBook }) {
     fetchBooks();
   }, [booksPromise]);
   
-  // Process books to combine Science Fiction and Fantasy genres
-  const processedBooks = books.map(book => {
-    if (book.genre === "Science Fiction" || book.genre === "Fantasy") {
-      return { ...book, genre: "Science Fiction & Fantasy" };
-    }
-    return book;
-  });
-  
-  // Filter books if a genre is selected
-  const filteredBooks = filter 
-    ? (filter === "Science Fiction & Fantasy" 
-        ? processedBooks.filter(book => 
-            book.genre === "Science Fiction & Fantasy" || 
-            book.genre === "Science Fiction" || 
-            book.genre === "Fantasy")
-        : processedBooks.filter(book => book.genre === filter))
-    : processedBooks;
+  // No genre transformation needed, just filter books by the selected genre
+  const filteredBooks = filter
+    ? books.filter(book => book.genre === filter)
+    : books;
   
   const handleBookSelect = (bookId) => {
     navigate(`/book/${bookId}`);

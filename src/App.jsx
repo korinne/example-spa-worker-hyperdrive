@@ -35,15 +35,7 @@ function App() {
       try {
         const books = await booksPromise;
         
-        // Modify books to combine Science Fiction and Fantasy genres
-        const modifiedBooks = books.map(book => {
-          if (book.genre === "Science Fiction" || book.genre === "Fantasy") {
-            return { ...book, genre: "Science Fiction & Fantasy" };
-          }
-          return book;
-        });
-        
-        const genreGroups = groupByGenre(modifiedBooks);
+        const genreGroups = groupByGenre(books);
         setGenres(genreGroups);
       } catch (error) {
         console.error("Error loading genres:", error);
@@ -70,20 +62,7 @@ function App() {
         
         const data = await response.json();
         
-        // Combine Science Fiction and Fantasy genres
-        if (data.book.genre === "Science Fiction" || data.book.genre === "Fantasy") {
-          data.book.genre = "Science Fiction & Fantasy";
-        }
-        
-        // Update related books genres as well
-        if (data.relatedBooks && data.relatedBooks.length > 0) {
-          data.relatedBooks = data.relatedBooks.map(book => {
-            if (book.genre === "Science Fiction" || book.genre === "Fantasy") {
-              return { ...book, genre: "Science Fiction & Fantasy" };
-            }
-            return book;
-          });
-        }
+        // No need for genre transformation, it's now handled in the database
         
         // Add response time to the performance metrics
         data.performance.responseTime = Math.round(endTime - startTime);
