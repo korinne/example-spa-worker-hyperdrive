@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "example-spa-worker-hyperdrive",
+  "name": "example-spa-worker",
   "main": "api/index.js",
   "compatibility_flags": ["nodejs_compat"],
   "compatibility_date": "2025-02-14",
