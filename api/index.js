@@ -1,25 +1,23 @@
 import { Hono } from "hono";
-import postgres from "postgres";
+import { Client } from "@neondatabase/serverless";
 
 const app = new Hono();
 
 app.get("/api/data", async (c) => {
-  const sql = postgres(c.env.HYPERDRIVE.connectionString, {
-    max: 5,
-    fetch_types: false,
-  });
-
+  const client = new Client(c.env.DATABASE_URL);
   try {
-    const results = await sql`SELECT * FROM public.books`;
-    c.executionCtx.waitUntil(sql.end());
-
-    return Response.json(results);
-  } catch (e) {
-    console.error(e);
-    return Response.json(
-      { error: e instanceof Error ? e.message : e },
-      { status: 500 }
-    );
+    await client.connect();
+    const { rows } = await client.query("SELECT * FROM public.books");
+    return c.json(rows);
+  } catch (error) {
+    console.error("Database error:", error);
+    return c.json({ error: error.message || "Database errors" }, 500);
+  } finally {
+    try {
+      await client.end();
+    } catch (e) {
+      console.error("Error closing connection:", e);
+    }
   }
 });
 

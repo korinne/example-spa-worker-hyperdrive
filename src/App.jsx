@@ -9,7 +9,7 @@ function BooksList({ booksPromise }) {
       {books.map((book) => (
         <div key={book.id} className="book-card">
           <div className="book-image">
-            <img src={book.image_url} className="cropped" alt={book.title} />
+            <img src={book.image_url} alt={book.title} />
           </div>
           <div className="book-info">
             <h2 className="book-title">{book.title}</h2>
