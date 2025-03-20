@@ -5,23 +5,11 @@ CREATE TABLE IF NOT EXISTS books (
     author VARCHAR(255) NOT NULL,
     description TEXT,
     image_url VARCHAR(255),
+    genre VARCHAR(50) DEFAULT 'Unknown',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Add genre column if it doesn't exist
-DO $$
-BEGIN
-    IF NOT EXISTS (
-        SELECT FROM information_schema.columns 
-        WHERE table_name = 'books' AND column_name = 'genre'
-    ) THEN
-        ALTER TABLE books ADD COLUMN genre VARCHAR(50) DEFAULT 'Unknown';
-    END IF;
-END $$;
-
--- Clear existing data (optional)
-TRUNCATE books RESTART IDENTITY;
 
 -- Insert books data with consolidated genres
 INSERT INTO books (id, title, author, description, image_url, genre) VALUES
